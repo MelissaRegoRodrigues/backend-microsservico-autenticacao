@@ -38,10 +38,13 @@ public class AuthController {
         return ResponseEntity.ok().body(loginResponseDTO);
     }
 
-    @GetMapping(value = "/validate-token", params = {"token"})
-    public ResponseEntity<LoginResponseDTO> validateToken(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    @GetMapping(value = "/validate-token")
+    public ResponseEntity<LoginResponseDTO> validateToken(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", "");
+
         return ResponseEntity.ok(authenticationService.validateToken(token));
     }
+
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User registerRequest) {
